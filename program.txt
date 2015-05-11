@@ -1,0 +1,33 @@
+view dockerhub
+run hello-world
+run ubuntu:12.04 (with -it bash)
+run ubuntu:14.04
+run fedora
+
+run julia
+Pkg.add("TextPlots")
+oops it fails, since it's missing git (lets fix it)
+run julia bash with and run "apt-get update && apt-get install git"
+julia
+    Pkg.add("TextPlots"); using TextPlots; plot([x -> cos(x), x -> cos(x + pi)], 0:5);
+
+Note that a docker will be clean when you start it, so it will not have git the next time
+we would love to build an image which already does this
+
+Define a build with a Dockerfile
+
+docker run juliagit julia -e 'Pkg.add("TextPlots"); using TextPlots; plot([x -> cos(x), x -> cos(x + pi)], 0:5);'
+
+python app
+build it with the "python" base image
+build it with the custom Dockerfile (it takes a while)
+
+So lets say I want to test something temporary that needs a mysql database (or dev with the mysql itself)
+docker run --name myskul --rm --publish=3306:3306 --env=MYSQL_ROOT_PASSWORD=pw mysql
+docker logs myskul
+
+mysql -uroot -ppw --protocol=tcp -hlocalhost -P3306 < db.sql
+
+run it a few times (but it doesn't save the data between runs)
+
+docker run --name myskul --rm --publish=3306:3306 --env=MYSQL_ROOT_PASSWORD=pw --volume=`pwd`/datadir:/var/lib/mysql mysql

@@ -1,0 +1,12 @@
+FROM ubuntu:14.04
+
+RUN apt-get update && apt-get install --assume-yes\
+    python \
+    python-pip
+
+COPY requirements.txt /etc/app/requirements.txt
+RUN pip install -r /etc/app/requirements.txt
+
+COPY app.py /etc/app/app.py
+
+CMD [ "python", "/etc/app/app.py" ]
